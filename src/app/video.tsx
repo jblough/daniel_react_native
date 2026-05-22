@@ -1,11 +1,13 @@
 import {useEvent} from 'expo';
 import {useVideoPlayer, VideoView} from 'expo-video';
 import {Button, StyleSheet, View} from 'react-native';
-import {readingPlan} from "@/constants/reading_plan";
 import {Stack} from "expo-router";
+import {useSelector} from "react-redux";
+import type {RootState} from "@/store/store";
 
 const VideoScreen = () => {
-    const videoSource = readingPlan[4].videoUrl;
+    const selectedWeek = useSelector((state: RootState) => state.selectedWeek);
+    const videoSource = selectedWeek.week.videoUrl;
 
     const player = useVideoPlayer(videoSource, player => {
         player.loop = false;

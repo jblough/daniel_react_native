@@ -77,7 +77,9 @@ const styles = StyleSheet.create({
     },
     scroll: {
         flex: 1,
-    }, page: {
+        paddingHorizontal: 10,
+    },
+    page: {
         justifyContent: 'center',
         alignItems: 'center',
     },
