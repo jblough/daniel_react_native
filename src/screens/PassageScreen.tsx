@@ -1,32 +1,23 @@
 // import PagerView from 'react-native-pager-view';
-import {ScrollView, StyleSheet} from "react-native";
+import {ActivityIndicator, ScrollView, StyleSheet} from "react-native";
 import {Week} from "@/types/week";
-import {useEffect, useState} from 'react';
-import {downloadPassage} from "@/api";
 import ScriptureView from "@/components/ScriptureView";
-
-const source = "<p style='text-align:center;'>Loading... </p>";
+import {usePassageContent} from "@/hooks/usePassageContent";
 
 interface PassageProps {
     week: Week;
 }
 
 const PassageScreen = ({week}: PassageProps) => {
-    const [html, setHtml] = useState(source);
-
-    useEffect(() => {
-        downloadPassage(week.passage).then((res) => {
-            if (res.data?.passages) {
-                const html = res.data.passages.join();
-                setHtml(html);
-            }
-        });
-
-    }, [week.passage]);
+    const {content, loading} = usePassageContent(week);
+    
+    if (loading) {
+        return <ActivityIndicator/>;
+    }
 
     return (
         <ScrollView style={styles.container}>
-            <ScriptureView week={week} html={html}/>
+            <ScriptureView week={week} html={content}/>
         </ScrollView>
     );
 };

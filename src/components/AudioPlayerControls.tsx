@@ -19,7 +19,7 @@ const AudioPlayerControls = ({player, status}: AudioPlayerControlsProps) => {
                 <Ionicons style={style} name={"play-skip-back"} size={size} color={color}/>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => player.seekTo(-5)}>
+            <TouchableOpacity onPress={() => player.seekTo(status.currentTime - 5)}>
                 <Ionicons style={style} name={"play-back"} size={size} color={color}/>
             </TouchableOpacity>
 
@@ -42,7 +42,7 @@ const AudioPlayerControls = ({player, status}: AudioPlayerControlsProps) => {
                 </TouchableOpacity>
             }
 
-            <TouchableOpacity onPress={() => player.seekTo(5)}>
+            <TouchableOpacity onPress={() => player.seekTo(status.currentTime + 5)}>
                 <Ionicons style={style} name={"play-forward"} size={size} color={color}/>
             </TouchableOpacity>
 

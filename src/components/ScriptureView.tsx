@@ -5,6 +5,8 @@ import {Week} from "@/types/week";
 import {useAudioPlayer, useAudioPlayerStatus} from "expo-audio";
 import AudioPlayerControls from "@/components/AudioPlayerControls";
 import Animated, {FadeInUp, FadeOutUp} from "react-native-reanimated";
+import {useSelector} from "react-redux";
+import type {RootState} from "@/store/store";
 
 interface ScriptureViewProps {
     week: Week;
@@ -14,6 +16,7 @@ interface ScriptureViewProps {
 const ScriptureView = (props: ScriptureViewProps) => {
     const player = useAudioPlayer();
     const status = useAudioPlayerStatus(player);
+    const settings = useSelector((state: RootState) => state.settings);
 
     function onPress(_: GestureResponderEvent,
                      href: string,
@@ -48,6 +51,7 @@ const ScriptureView = (props: ScriptureViewProps) => {
             <RenderHtml
                 contentWidth={width}
                 source={{html: props.html}}
+                baseStyle={{fontSize: settings.fontSize}}
                 renderersProps={renderersProps}
             />
         </View>
