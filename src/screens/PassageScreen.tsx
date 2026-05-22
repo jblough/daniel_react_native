@@ -22,7 +22,7 @@ const PassageScreen = ({week}: PassageProps) => {
             }
         });
 
-    }, []);
+    }, [week.passage]);
 
     return (
         <ScrollView style={styles.container}>

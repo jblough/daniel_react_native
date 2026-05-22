@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint"
   },
   "dependencies": {
+    "@expo/vector-icons": "^15.1.1",
     "@react-navigation/bottom-tabs": "^7.15.5",
     "@react-navigation/drawer": "^7.9.4",
     "@react-navigation/elements": "^2.9.18",
@@ -43,6 +43,8 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.15",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~55.0.1",
     "react-native-dotenv": "^3.4.11",
     "typescript": "~6.0.3"
   },

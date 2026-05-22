@@ -1,6 +1,6 @@
 import {TouchableOpacity, View} from "react-native";
 import {AudioPlayer, AudioStatus} from "expo-audio";
-import {Ionicons} from "@expo/vector-icons"
+import Ionicons from "@expo/vector-icons/Ionicons"
 
 interface AudioPlayerControlsProps {
     player: AudioPlayer;

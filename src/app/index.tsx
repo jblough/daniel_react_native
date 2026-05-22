@@ -2,7 +2,7 @@ import {StyleSheet, TouchableOpacity, View} from "react-native";
 import PassageScreen from "@/screens/PassageScreen";
 import {readingPlan} from "@/constants/reading_plan";
 import {Stack, useRouter} from "expo-router";
-import {Ionicons} from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Index() {
     const router = useRouter();

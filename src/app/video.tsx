@@ -2,9 +2,10 @@ import {useEvent} from 'expo';
 import {useVideoPlayer, VideoView} from 'expo-video';
 import {Button, StyleSheet, View} from 'react-native';
 import {readingPlan} from "@/constants/reading_plan";
+import {Stack} from "expo-router";
 
 const VideoScreen = () => {
-    const videoSource = readingPlan[2].videoUrl;
+    const videoSource = readingPlan[4].videoUrl;
 
     const player = useVideoPlayer(videoSource, player => {
         player.loop = false;
@@ -14,26 +15,31 @@ const VideoScreen = () => {
     const {isPlaying} = useEvent(player, 'playingChange', {isPlaying: player.playing});
 
     return (
-        <View style={styles.contentContainer}>
-            <VideoView
-                style={styles.video}
-                player={player}
-                fullscreenOptions={{enable: true}}
-                allowsPictureInPicture
-            />
-            <View style={styles.controlsContainer}>
-                <Button
-                    title={isPlaying ? 'Pause' : 'Play'}
-                    onPress={() => {
-                        if (isPlaying) {
-                            player.pause();
-                        } else {
-                            player.play();
-                        }
-                    }}
+        <Stack.Screen options={{
+            headerShown: true,
+            title: "Sermon Video"
+        }}>
+            <View style={styles.contentContainer}>
+                <VideoView
+                    style={styles.video}
+                    player={player}
+                    fullscreenOptions={{enable: true}}
+                    allowsPictureInPicture
                 />
+                <View style={styles.controlsContainer}>
+                    <Button
+                        title={isPlaying ? 'Pause' : 'Play'}
+                        onPress={() => {
+                            if (isPlaying) {
+                                player.pause();
+                            } else {
+                                player.play();
+                            }
+                        }}
+                    />
+                </View>
             </View>
-        </View>
+        </Stack.Screen>
     );
 };
 

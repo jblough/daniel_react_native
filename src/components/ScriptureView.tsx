@@ -24,7 +24,7 @@ const ScriptureView = (props: ScriptureViewProps) => {
         }
 
         const linkTitle = htmlAttribs["title"];
-        if (linkTitle && htmlAttribs["type"] != "audio/mpeg") {
+        if (linkTitle && htmlAttribs["type"] !== "audio/mpeg") {
             if (Platform.OS === 'web') {
                 alert(linkTitle);
             } else {
