@@ -1,5 +1,12 @@
-// import PagerView from 'react-native-pager-view';
-import {Alert, type GestureResponderEvent, Platform, StyleSheet, useWindowDimensions, View,} from "react-native";
+import {
+    Alert,
+    type GestureResponderEvent,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    useWindowDimensions,
+    View,
+} from "react-native";
 import RenderHtml from 'react-native-render-html';
 import {Week} from "@/types/week";
 import {useAudioPlayer, useAudioPlayerStatus} from "expo-audio";
@@ -48,12 +55,14 @@ const ScriptureView = (props: ScriptureViewProps) => {
                 <Animated.View style={styles.audioPlayerControls} entering={FadeInUp} exiting={FadeOutUp}>
                     <AudioPlayerControls player={player} status={status}/>
                 </Animated.View>}
-            <RenderHtml
-                contentWidth={width}
-                source={{html: props.html}}
-                baseStyle={{fontSize: settings.fontSize}}
-                renderersProps={renderersProps}
-            />
+            <ScrollView style={styles.scroll}>
+                <RenderHtml
+                    contentWidth={width}
+                    source={{html: props.html}}
+                    baseStyle={{fontSize: settings.fontSize}}
+                    renderersProps={renderersProps}
+                    ignoredDomTags={["note"]}
+                /></ScrollView>
         </View>
     );
 };
@@ -66,7 +75,9 @@ const styles = StyleSheet.create({
         height: "100%",
         alignSelf: "stretch"
     },
-    page: {
+    scroll: {
+        flex: 1,
+    }, page: {
         justifyContent: 'center',
         alignItems: 'center',
     },

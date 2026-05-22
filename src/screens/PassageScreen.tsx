@@ -1,5 +1,4 @@
-// import PagerView from 'react-native-pager-view';
-import {ActivityIndicator, ScrollView, StyleSheet} from "react-native";
+import {ActivityIndicator, StyleSheet, View} from "react-native";
 import {Week} from "@/types/week";
 import ScriptureView from "@/components/ScriptureView";
 import {usePassageContent} from "@/hooks/usePassageContent";
@@ -10,21 +9,22 @@ interface PassageProps {
 
 const PassageScreen = ({week}: PassageProps) => {
     const {content, loading} = usePassageContent(week);
-    
+
     if (loading) {
         return <ActivityIndicator/>;
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <View style={styles.container}>
             <ScriptureView week={week} html={content}/>
-        </ScrollView>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: "100%",
         marginHorizontal: 10,
     },
     page: {

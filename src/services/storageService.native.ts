@@ -8,6 +8,12 @@ function getFile(week: Week): File {
 
 export const storageService: StorageService = {
     saveContent: async (week: Week, content: string) => getFile(week).write(content),
-    getContent: async (week: Week) => getFile(week).text(),
+    getContent: async (week: Week) => {
+        const file = getFile(week);
+        if (!file.exists) {
+            return null;
+        }
+        return getFile(week).text();
+    },
     deleteContent: async (week: Week) => getFile(week).delete(),
 }

@@ -1,11 +1,11 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export interface CompletedReadingsState {
-    completedReadings: Set<string>;
+    completedReadings: string[];
 }
 
 const initialState: CompletedReadingsState = {
-    completedReadings: new Set(),
+    completedReadings: [],
 }
 
 export const completedReadingsSlice = createSlice({
@@ -13,10 +13,10 @@ export const completedReadingsSlice = createSlice({
     initialState: initialState,
     reducers: {
         completeReading: (state, action: PayloadAction<string>) => {
-            state.completedReadings.add(action.payload);
+            state.completedReadings.push(action.payload);
         },
         uncompleteReading: (state, action: PayloadAction<string>) => {
-            state.completedReadings.delete(action.payload);
+            state.completedReadings = state.completedReadings.filter((item) => item !== action.payload);
         },
     }
 });
