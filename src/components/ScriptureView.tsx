@@ -18,14 +18,14 @@ import type {RootState} from "@/store/store";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import PercentageIndicator from "@/components/PercentageIndicator";
-import {useEffect, useRef, useState} from 'react';
+import {memo, useEffect, useRef, useState} from 'react';
 
 interface ScriptureViewProps {
     week: Week;
     html: string;
 }
 
-const ScriptureView = (props: ScriptureViewProps) => {
+const ScriptureView = memo(function ScriptureView({week, html}: ScriptureViewProps) {
     const player = useAudioPlayer();
     const status = useAudioPlayerStatus(player);
     const settings = useSelector((state: RootState) => state.settings);
@@ -36,7 +36,7 @@ const ScriptureView = (props: ScriptureViewProps) => {
 
     useEffect(() => {
         scrollRef.current?.scrollTo({y: 0, animated: false});
-    }, [props.week]);
+    }, [week]);
 
     function onPress(_: GestureResponderEvent,
                      href: string,
@@ -94,7 +94,7 @@ const ScriptureView = (props: ScriptureViewProps) => {
             >
                 <RenderHtml
                     contentWidth={width}
-                    source={{html: props.html}}
+                    source={{html: html}}
                     baseStyle={{fontSize: settings.fontSize}}
                     renderersProps={renderersProps}
                     ignoredDomTags={["note"]}
@@ -104,11 +104,11 @@ const ScriptureView = (props: ScriptureViewProps) => {
                 <PercentageIndicator percentage={percentageComplete}/>
             </View>
             <View style={styles.weekIndicator}>
-                <Text>Week {props.week.weekNumber}</Text>
+                <Text>Week {week.weekNumber}</Text>
             </View>
         </View>
     );
-};
+});
 
 const styles = StyleSheet.create({
     container: {
