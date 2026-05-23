@@ -39,13 +39,3 @@
 
 - Onboarding
 - Showcase
-
-      "expo-audio",
-      {
-        "enableBackgroundPlayback": true
-      },
-      "expo-video",
-      {
-        "supportsBackgroundPlayback": true,
-        "supportsPictureInPicture": true
-      }
