@@ -17,6 +17,10 @@ export const fetchPassageContent = createAsyncThunk(
                     content = JSON.stringify(response.data);
                     void storageService.saveContent(week, content);
                 }
+                
+                // TODO: Check if more than 6 passages have been downloaded and if so then remove the passages
+                //  that were downloaded earliest to make sure that no more than 6 passages are on the device
+                //  at the same time.  This is part of the ESV API licensing requirements.
             }
         } catch (e) {
             console.log(e);

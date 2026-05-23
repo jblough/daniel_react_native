@@ -3,7 +3,7 @@ import {StorageService} from "@/services/storageService";
 import {File, Paths} from "expo-file-system";
 
 function getFile(week: Week): File {
-    return new File(Paths.cache, `passage_${week.weekNumber}`);
+    return new File(Paths.cache, `passage_${week.weekNumber}.json`);
 }
 
 export const storageService: StorageService = {
