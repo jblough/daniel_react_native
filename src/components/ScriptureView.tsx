@@ -4,6 +4,7 @@ import {
     Platform,
     ScrollView,
     StyleSheet,
+    Text,
     useWindowDimensions,
     View,
 } from "react-native";
@@ -14,6 +15,10 @@ import AudioPlayerControls from "@/components/AudioPlayerControls";
 import Animated, {FadeInUp, FadeOutUp} from "react-native-reanimated";
 import {useSelector} from "react-redux";
 import type {RootState} from "@/store/store";
+import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
+import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
+import PercentageIndicator from "@/components/PercentageIndicator";
+import {useRef, useState} from 'react';
 
 interface ScriptureViewProps {
     week: Week;
@@ -24,6 +29,10 @@ const ScriptureView = (props: ScriptureViewProps) => {
     const player = useAudioPlayer();
     const status = useAudioPlayerStatus(player);
     const settings = useSelector((state: RootState) => state.settings);
+    const {width} = useWindowDimensions();
+    const [percentageComplete, setPercentageComplete] = useState(0);
+    const [contentHeight, setContentHeight] = useState(0);
+    const scrollRef = useRef<ScrollView>(null);
 
     function onPress(_: GestureResponderEvent,
                      href: string,
@@ -45,9 +54,26 @@ const ScriptureView = (props: ScriptureViewProps) => {
 
     const renderersProps = {a: {onPress}};
 
-    const {width} = useWindowDimensions();
-
     const showAudioControls = !status.didJustFinish && status.duration > 0 && (status.playing || (status.timeControlStatus === "paused" && status.currentTime > 0));
+
+    if (status.playing && contentHeight && scrollRef.current) {
+        const audioPercentageDone = status.currentTime / status.duration;
+        const scrollPosition = audioPercentageDone * (contentHeight - 200);
+
+        scrollRef.current?.scrollTo({y: scrollPosition, animated: true});
+    }
+
+    function onScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
+        const offset = event.nativeEvent.contentOffset.y;
+        const inset = event.nativeEvent.layoutMeasurement.height;
+        const size = event.nativeEvent.contentSize.height;
+        const percentageScrolled = offset / (size - inset) * 100;
+        setPercentageComplete(Math.round(percentageScrolled));
+    }
+
+    function onContentSizeChange(_: number, height: number) {
+        setContentHeight(height);
+    }
 
     return (
         <View style={styles.container}>
@@ -55,14 +81,27 @@ const ScriptureView = (props: ScriptureViewProps) => {
                 <Animated.View style={styles.audioPlayerControls} entering={FadeInUp} exiting={FadeOutUp}>
                     <AudioPlayerControls player={player} status={status}/>
                 </Animated.View>}
-            <ScrollView style={styles.scroll}>
+            <ScrollView
+                style={styles.scroll}
+                onScroll={onScroll}
+                scrollEventThrottle={64}
+                ref={scrollRef}
+                onContentSizeChange={onContentSizeChange}
+            >
                 <RenderHtml
                     contentWidth={width}
                     source={{html: props.html}}
                     baseStyle={{fontSize: settings.fontSize}}
                     renderersProps={renderersProps}
                     ignoredDomTags={["note"]}
-                /></ScrollView>
+                />
+            </ScrollView>
+            <View style={styles.percentIndicator}>
+                <PercentageIndicator percentage={percentageComplete}/>
+            </View>
+            <View style={styles.weekIndicator}>
+                <Text>Week {props.week.weekNumber}</Text>
+            </View>
         </View>
     );
 };
@@ -89,7 +128,20 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignContent: "stretch",
         alignSelf: "stretch",
-    }
+    },
+    percentIndicator: {
+        position: "absolute",
+        end: 20,
+        bottom: 30,
+    },
+    weekIndicator: {
+        position: "absolute",
+        alignSelf: "center",
+        backgroundColor: '#ddd',
+        borderRadius: 8,
+        padding: 10,
+        bottom: 10,
+    },
 });
 
 export default ScriptureView;
