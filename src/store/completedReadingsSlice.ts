@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-export interface CompletedReadingsState {
+interface CompletedReadingsState {
     completedReadings: string[];
 }
 

@@ -1,4 +1,4 @@
-import {ActivityIndicator, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Week} from "@/types/week";
 import ScriptureView from "@/components/ScriptureView";
 import {usePassageContent} from "@/hooks/usePassageContent";
@@ -9,6 +9,11 @@ import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/Sc
 import {useAudioPlayer, useAudioPlayerStatus} from "expo-audio";
 import Animated, {FadeInUp, FadeOutUp} from "react-native-reanimated";
 import AudioPlayerControls from "@/components/AudioPlayerControls";
+import {completeReading, uncompleteReading} from "@/store/completedReadingsSlice";
+import {useDispatch, useSelector} from "react-redux";
+import type {RootState} from "@/store/store";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 
 interface PassageProps {
     week: Week;
@@ -16,6 +21,8 @@ interface PassageProps {
 
 const PassageScreen = ({week}: PassageProps) => {
     const {content, loading} = usePassageContent(week);
+    const dispatch = useDispatch();
+    const completedReadings = useSelector((state: RootState) => state.completeReadings);
 
     const player = useAudioPlayer();
     const status = useAudioPlayerStatus(player);
@@ -27,6 +34,8 @@ const PassageScreen = ({week}: PassageProps) => {
     useEffect(() => {
         scrollRef.current?.scrollTo({y: 0, animated: false});
     }, [week]);
+
+    const isCompleted = completedReadings.completedReadings.includes(week.passage);
 
     const playAudio = (href: string) => {
         player.replace({uri: href});
@@ -46,12 +55,26 @@ const PassageScreen = ({week}: PassageProps) => {
         const offset = event.nativeEvent.contentOffset.y;
         const inset = event.nativeEvent.layoutMeasurement.height;
         const size = event.nativeEvent.contentSize.height;
-        const percentageScrolled = offset / (size - inset) * 100;
-        setPercentageComplete(Math.round(percentageScrolled));
+        const percentageScrolled = Math.round(offset / (size - inset) * 100);
+        if (percentageScrolled >= 100 && !isCompleted) {
+            dispatch(completeReading(week.passage));
+        }
+
+        if (!isCompleted) {
+            setPercentageComplete(percentageScrolled);
+        }
     }
 
     function onContentSizeChange(_: number, height: number) {
         setContentHeight(height);
+    }
+
+    function toggleCompleted() {
+        if (isCompleted) {
+            dispatch(uncompleteReading(week.passage));
+        } else {
+            dispatch(completeReading(week.passage));
+        }
     }
 
     if (loading) {
@@ -73,11 +96,16 @@ const PassageScreen = ({week}: PassageProps) => {
             >
                 <ScriptureView html={content} playAudio={playAudio}/>
             </ScrollView>
-            <View style={styles.percentIndicator}>
-                <PercentageIndicator percentage={percentageComplete}/>
-            </View>
+            <TouchableOpacity onPress={toggleCompleted}>
+                <View style={styles.percentIndicator}>
+                    <PercentageIndicator percentage={percentageComplete} done={isCompleted}/>
+                </View>
+            </TouchableOpacity>
             <View style={styles.weekIndicator}>
                 <Text>Week {week.weekNumber}</Text>
+                {isCompleted && <Ionicons style={{paddingLeft: 10}} name={"checkmark-circle"} size={24}
+                                          color="#777"/>
+                }
             </View>
         </View>
     );
@@ -105,12 +133,16 @@ const styles = StyleSheet.create({
         bottom: 30,
     },
     weekIndicator: {
+        flexDirection: "row",
         position: "absolute",
         alignSelf: "center",
+        alignItems: "center",
         backgroundColor: '#ddd',
         borderRadius: 8,
-        padding: 10,
-        bottom: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        height: 32,
+        bottom: 15,
     },
 });
 

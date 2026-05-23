@@ -16,6 +16,8 @@ export default function PercentageIndicator({percentage, done}: PercentageIndica
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
     const color = '#3498db';
 
+    const isCompleted = percentage >= 100 || done;
+
     return (
         <View style={{width: radius * 2, height: radius * 2, justifyContent: 'center', alignItems: 'center'}}>
             <Svg width={radius * 2} height={radius * 2}>
@@ -35,18 +37,18 @@ export default function PercentageIndicator({percentage, done}: PercentageIndica
                     strokeWidth={strokeWidth}
                     fill="transparent"
                     strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
+                    strokeDashoffset={isCompleted ? 0 : strokeDashoffset}
                     strokeLinecap="round"
                     transform={`rotate(-90 ${radius} ${radius})`} // Starts progress at the top (12 o'clock)
                 />
             </Svg>
 
-            {percentage < 100 && !done &&
+            {!isCompleted &&
                 <View style={styles.textOverlay}>
                     <Text style={[styles.text, {fontSize: radius * 0.4}]}>{percentage}%</Text>
                 </View>}
 
-            {(percentage >= 100 || done) &&
+            {isCompleted &&
                 <View style={styles.textOverlay}>
                     <Ionicons style={styles.text} name={"checkmark"} size={32} color={color}/>
                 </View>}

@@ -4,8 +4,10 @@ import {readingPlan} from "@/constants/reading_plan";
 import {useDispatch, useSelector} from "react-redux";
 import {setWeek} from "@/store/selectedWeekSlice";
 import type {RootState} from "@/store/store";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const CustomDrawer = (props: any) => {
+    const completedReadings = useSelector((state: RootState) => state.completeReadings);
     const selectedWeek = useSelector((state: RootState) => state.selectedWeek);
     const dispatch = useDispatch();
 
@@ -29,6 +31,11 @@ const CustomDrawer = (props: any) => {
                                 <Text style={styles.titleText}>Week {item.weekNumber}</Text>
                                 <Text style={styles.subtitleText}>{item.passage}</Text>
                             </View>
+                            {
+                                completedReadings.completedReadings.includes(item.passage) &&
+                                <Ionicons style={{paddingHorizontal: 5}} name={"checkmark-circle"} size={24}
+                                          color="#777"/>
+                            }
                         </View>
                     )}
                     onPress={() => {
