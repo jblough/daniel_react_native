@@ -18,7 +18,7 @@ import type {RootState} from "@/store/store";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import PercentageIndicator from "@/components/PercentageIndicator";
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 interface ScriptureViewProps {
     week: Week;
@@ -33,6 +33,10 @@ const ScriptureView = (props: ScriptureViewProps) => {
     const [percentageComplete, setPercentageComplete] = useState(0);
     const [contentHeight, setContentHeight] = useState(0);
     const scrollRef = useRef<ScrollView>(null);
+
+    useEffect(() => {
+        scrollRef.current?.scrollTo({y: 0, animated: false});
+    }, [props.week]);
 
     function onPress(_: GestureResponderEvent,
                      href: string,
