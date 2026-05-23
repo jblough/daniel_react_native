@@ -4,8 +4,10 @@ import {Button, StyleSheet, View} from 'react-native';
 import {Stack} from "expo-router";
 import {useSelector} from "react-redux";
 import type {RootState} from "@/store/store";
+import {useTheme} from "@/hooks/useTheme";
 
 const VideoScreen = () => {
+    const themeColors = useTheme();
     const selectedWeek = useSelector((state: RootState) => state.selectedWeek);
     const videoSource = selectedWeek.week.videoUrl;
 
@@ -19,9 +21,11 @@ const VideoScreen = () => {
     return (
         <Stack.Screen options={{
             headerShown: true,
-            title: "Sermon Video"
+            title: "Sermon Video",
+            headerStyle: {backgroundColor: themeColors.colors.header},
+            headerTintColor: themeColors.colors.text,
         }}>
-            <View style={styles.contentContainer}>
+            <View style={[styles.contentContainer, {backgroundColor: themeColors.colors.background}]}>
                 <VideoView
                     style={styles.video}
                     player={player}

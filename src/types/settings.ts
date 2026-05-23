@@ -5,6 +5,6 @@ export enum ThemeMode {
 }
 
 export interface Settings {
-    mode: ThemeMode;
+    themeMode: ThemeMode;
     fontSize: number;
 }

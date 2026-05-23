@@ -3,6 +3,7 @@ import RenderHtml from 'react-native-render-html';
 import {useSelector} from "react-redux";
 import type {RootState} from "@/store/store";
 import {memo} from 'react';
+import {useTheme} from "@/hooks/useTheme";
 
 interface ScriptureViewProps {
     html: string;
@@ -10,6 +11,7 @@ interface ScriptureViewProps {
 }
 
 const ScriptureView = memo(function ScriptureView({playAudio, html}: ScriptureViewProps) {
+    const themeColors = useTheme();
     const settings = useSelector((state: RootState) => state.settings);
     const {width} = useWindowDimensions();
 
@@ -37,7 +39,12 @@ const ScriptureView = memo(function ScriptureView({playAudio, html}: ScriptureVi
         <RenderHtml
             contentWidth={width}
             source={{html: html}}
-            baseStyle={{fontSize: settings.fontSize}}
+            baseStyle={{
+                fontSize: settings.fontSize,
+                color: themeColors.colors.text,
+                backgroundColor: themeColors.colors.background,
+                tintColor: themeColors.colors.text,
+            }}
             renderersProps={renderersProps}
             ignoredDomTags={["note"]}
         />

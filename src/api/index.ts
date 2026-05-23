@@ -1,5 +1,5 @@
 import {Passage} from "@/types/passage";
-import {DataStatus, Status} from "@/types/data_status";
+import {DataStatus, Status} from "@/types/dataStatus";
 
 const baseUrl = 'https://api.esv.org/v3/passage/html/?q=';
 

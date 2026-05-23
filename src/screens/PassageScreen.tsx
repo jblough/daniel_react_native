@@ -13,6 +13,7 @@ import {completeReading, uncompleteReading} from "@/store/completedReadingsSlice
 import {useDispatch, useSelector} from "react-redux";
 import type {RootState} from "@/store/store";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import {useTheme} from "@/hooks/useTheme";
 
 
 interface PassageProps {
@@ -23,6 +24,7 @@ const PassageScreen = ({week}: PassageProps) => {
     const {content, loading} = usePassageContent(week);
     const dispatch = useDispatch();
     const completedReadings = useSelector((state: RootState) => state.completeReadings);
+    const themeColors = useTheme();
 
     const player = useAudioPlayer();
     const status = useAudioPlayerStatus(player);
@@ -82,7 +84,7 @@ const PassageScreen = ({week}: PassageProps) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: themeColors.colors.background}]}>
             {showAudioControls &&
                 <Animated.View style={styles.audioPlayerControls} entering={FadeInUp} exiting={FadeOutUp}>
                     <AudioPlayerControls player={player} status={status}/>

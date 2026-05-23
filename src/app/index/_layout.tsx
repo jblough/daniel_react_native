@@ -6,9 +6,11 @@ import {Provider} from "react-redux";
 import {store} from "@/store/store";
 import {Drawer} from "expo-router/drawer";
 import CustomDrawer from "@/components/CustomDrawer";
+import {useTheme} from "@/hooks/useTheme";
 
 export default function HomeLayout() {
     const router = useRouter();
+    const themeColors = useTheme();
 
     function showVideo() {
         router.push("/video");
@@ -24,13 +26,17 @@ export default function HomeLayout() {
                 headerShown: true,
                 headerTitle: "Summer of Daniel",
                 headerTitleAlign: "center",
+                headerStyle: {backgroundColor: themeColors.colors.header},
+                headerTintColor: themeColors.colors.text,
                 headerRight: () => (
                     <View style={{flexDirection: "row"}}>
                         <TouchableOpacity onPress={showVideo}>
-                            <Ionicons style={{paddingHorizontal: 5}} name={"videocam"} size={24} color="#777"/>
+                            <Ionicons style={{paddingHorizontal: 5}} name={"videocam"} size={24}
+                                      color={themeColors.colors.text}/>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={goToSettings}>
-                            <Ionicons style={{paddingHorizontal: 10}} name={"settings"} size={24} color="#777"/>
+                            <Ionicons style={{paddingHorizontal: 10}} name={"settings"} size={24}
+                                      color={themeColors.colors.text}/>
                         </TouchableOpacity>
                     </View>
                 ),

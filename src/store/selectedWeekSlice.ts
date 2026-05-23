@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Week} from "@/types/week";
-import {readingPlan} from "@/constants/reading_plan";
+import {readingPlan} from "@/constants/readingPlan";
 
 export interface SelectedWeekSlice {
     week: Week;

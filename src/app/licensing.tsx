@@ -1,10 +1,29 @@
 import {Stack} from "expo-router";
 import {ScrollView, StyleSheet, Text} from 'react-native';
+import {useTheme} from "@/hooks/useTheme";
 
 export const Licensing = () => {
+    const themeColors = useTheme();
+
+    const styles = StyleSheet.create({
+        container: {
+            backgroundColor: themeColors.colors.background,
+        },
+        licensingText: {
+            fontSize: 14,
+            padding: 10,
+            color: themeColors.colors.text,
+        },
+    });
+
     return (
-        <Stack.Screen options={{headerShown: true, title: "Licensing"}}>
-            <ScrollView>
+        <Stack.Screen options={{
+            headerShown: true,
+            title: "Licensing",
+            headerStyle: {backgroundColor: themeColors.colors.header},
+            headerTintColor: themeColors.colors.text,
+        }}>
+            <ScrollView style={styles.container}>
                 <Text style={styles.licensingText}>
                     Scripture quotations marked “ESV” are from the ESV® Bible (The Holy Bible, English Standard
                     Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. Used by permission.
@@ -29,11 +48,5 @@ export const Licensing = () => {
     );
 };
 
-const styles = StyleSheet.create({
-    licensingText: {
-        fontSize: 14,
-        padding: 10,
-    },
-});
 
 export default Licensing

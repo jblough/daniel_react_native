@@ -1,6 +1,7 @@
 import {TouchableOpacity, View} from "react-native";
 import {AudioPlayer, AudioStatus} from "expo-audio";
 import Ionicons from "@expo/vector-icons/Ionicons"
+import {useTheme} from "@/hooks/useTheme";
 
 interface AudioPlayerControlsProps {
     player: AudioPlayer;
@@ -8,8 +9,9 @@ interface AudioPlayerControlsProps {
 }
 
 const AudioPlayerControls = ({player, status}: AudioPlayerControlsProps) => {
+    const themeColors = useTheme();
     const size = 24;
-    const color = "#777";
+    const color = themeColors.colors.text;
     const style = {paddingHorizontal: 15};
 
     return (
