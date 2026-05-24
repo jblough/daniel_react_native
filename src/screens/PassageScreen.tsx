@@ -103,10 +103,12 @@ const PassageScreen = ({week}: PassageProps) => {
                     <PercentageIndicator percentage={percentageComplete} done={isCompleted}/>
                 </View>
             </TouchableOpacity>
-            <View style={styles.weekIndicator}>
-                <Text>Week {week.weekNumber}</Text>
-                {isCompleted && <Ionicons style={{paddingLeft: 10}} name={"checkmark-circle"} size={24}
-                                          color="#777"/>
+            <View style={[styles.weekIndicator, {backgroundColor: themeColors.colors.button}]}>
+                <Text style={{color: themeColors.colors.background}}>Week {week.weekNumber}</Text>
+                {isCompleted &&
+                    <Ionicons style={{paddingLeft: 10, color: themeColors.colors.icon}}
+                              name={"checkmark-circle-outline"}
+                              size={24}/>
                 }
             </View>
         </View>

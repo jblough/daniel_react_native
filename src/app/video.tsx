@@ -23,7 +23,7 @@ const VideoScreen = () => {
             headerShown: true,
             title: "Sermon Video",
             headerStyle: {backgroundColor: themeColors.colors.header},
-            headerTintColor: themeColors.colors.text,
+            headerTintColor: themeColors.colors.button,
         }}>
             <View style={[styles.contentContainer, {backgroundColor: themeColors.colors.background}]}>
                 <VideoView

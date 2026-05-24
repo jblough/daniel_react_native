@@ -27,4 +27,4 @@ const passageContentSlice = createSlice({
     },
 });
 
-export default passageContentSlice.reducer;
+export default passageContentSlice;

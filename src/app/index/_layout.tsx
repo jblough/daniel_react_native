@@ -27,16 +27,16 @@ export default function HomeLayout() {
                 headerTitle: "Summer of Daniel",
                 headerTitleAlign: "center",
                 headerStyle: {backgroundColor: themeColors.colors.header},
-                headerTintColor: themeColors.colors.text,
+                headerTintColor: themeColors.colors.button,
                 headerRight: () => (
                     <View style={{flexDirection: "row"}}>
                         <TouchableOpacity onPress={showVideo}>
                             <Ionicons style={{paddingHorizontal: 5}} name={"videocam"} size={24}
-                                      color={themeColors.colors.text}/>
+                                      color={themeColors.colors.button}/>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={goToSettings}>
                             <Ionicons style={{paddingHorizontal: 10}} name={"settings"} size={24}
-                                      color={themeColors.colors.text}/>
+                                      color={themeColors.colors.button}/>
                         </TouchableOpacity>
                     </View>
                 ),

@@ -33,13 +33,13 @@ const SettingsScreen = () => {
                 headerShown: true,
                 title: "Settings",
                 headerStyle: {backgroundColor: themeColors.colors.header},
-                headerTintColor: themeColors.colors.text,
+                headerTintColor: themeColors.colors.button,
             }}>
             <View style={styles.container}>
                 <TouchableOpacity style={styles.button} onPress={() => {
                     router.push("/licensing");
                 }}>
-                    <Text>Licensing details</Text>
+                    <Text style={{color: themeColors.colors.background}}>Licensing details</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.sectionTitle}>Theme:</Text>
