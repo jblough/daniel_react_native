@@ -1,18 +1,17 @@
 import {Alert, GestureResponderEvent, Platform, useWindowDimensions,} from "react-native";
 import RenderHtml from 'react-native-render-html';
-import {useSelector} from "react-redux";
-import type {RootState} from "@/store/store";
 import {memo} from 'react';
-import {useTheme} from "@/hooks/useTheme";
+import {ThemeColors} from "@/constants/theme";
+import {Settings} from "@/types/settings";
 
 interface ScriptureViewProps {
     html: string;
     playAudio: (url: string) => void;
+    themeColors: ThemeColors;
+    settings: Settings;
 }
 
-const ScriptureView = memo(function ScriptureView({playAudio, html}: ScriptureViewProps) {
-    const themeColors = useTheme();
-    const settings = useSelector((state: RootState) => state.settings);
+const ScriptureView = memo(function ScriptureView({playAudio, html, themeColors, settings}: ScriptureViewProps) {
     const {width} = useWindowDimensions();
 
     function onPress(_: GestureResponderEvent,
@@ -41,9 +40,9 @@ const ScriptureView = memo(function ScriptureView({playAudio, html}: ScriptureVi
             source={{html: html}}
             baseStyle={{
                 fontSize: settings.fontSize,
-                color: themeColors.colors.text,
-                backgroundColor: themeColors.colors.background,
-                tintColor: themeColors.colors.text,
+                color: themeColors.text,
+                backgroundColor: themeColors.background,
+                tintColor: themeColors.text,
             }}
             renderersProps={renderersProps}
             ignoredDomTags={["note"]}

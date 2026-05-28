@@ -25,10 +25,11 @@ const PassageScreen = ({week}: PassageProps) => {
     const dispatch = useDispatch();
     const completedReadings = useSelector((state: RootState) => state.completeReadings);
     const themeColors = useTheme();
+    const settings = useSelector((state: RootState) => state.settings);
 
     const player = useAudioPlayer();
     const status = useAudioPlayerStatus(player);
-
+    
     const [percentageComplete, setPercentageComplete] = useState(0);
     const [contentHeight, setContentHeight] = useState(0);
     const scrollRef = useRef<ScrollView>(null);
@@ -96,7 +97,8 @@ const PassageScreen = ({week}: PassageProps) => {
                 ref={scrollRef}
                 onContentSizeChange={onContentSizeChange}
             >
-                <ScriptureView html={content} playAudio={playAudio}/>
+                <ScriptureView html={content} playAudio={playAudio} themeColors={themeColors.colors}
+                               settings={settings}/>
             </ScrollView>
             <TouchableOpacity onPress={toggleCompleted}>
                 <View style={styles.percentIndicator}>
