@@ -3,7 +3,7 @@ import {Week} from "@/types/week";
 import ScriptureView from "@/components/ScriptureView";
 import {usePassageContent} from "@/hooks/usePassageContent";
 import PercentageIndicator from "@/components/PercentageIndicator";
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {NativeSyntheticEvent} from "react-native/Libraries/Types/CoreEventTypes";
 import {NativeScrollEvent} from "react-native/Libraries/Components/ScrollView/ScrollView";
 import {useAudioPlayer, useAudioPlayerStatus} from "expo-audio";
@@ -39,10 +39,10 @@ const PassageScreen = ({week}: PassageProps) => {
 
     const isCompleted = completedReadings.completedReadings.includes(week.passage);
 
-    const playAudio = (href: string) => {
+    const playAudio = useCallback((href: string) => {
         player.replace({uri: href});
         player.play();
-    }
+    }, [player]);
 
     const showAudioControls = !status.didJustFinish && status.duration > 0 && (status.playing || (status.timeControlStatus === "paused" && status.currentTime > 0));
 

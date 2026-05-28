@@ -7,6 +7,7 @@ import {selectedWeekSlice} from "@/store/selectedWeekSlice";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storage from "redux-persist/lib/storage";
 import {Platform} from "react-native";
+import {FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE} from "redux-persist/es/constants";
 
 const selectStorage = () => {
     if (Platform.OS === 'web') {
@@ -32,7 +33,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: persistedReducer,
-
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }),
 });
 
 export const persistor = persistStore(store);
